@@ -74,10 +74,10 @@ class ISIC:
         """
         Download images and metadata from ISIC challenge.
         Doesn't download again if data exists.
-
         """
         lgr = logging.getLogger('Fuse')
-    
+
+        # Downloading training input data
         path = os.path.join(data_path, 'ISIC2019/ISIC_2019_Training_Input')
         print(f"Training Input Path: {os.path.abspath(path)}")
         if not os.path.exists(path):
@@ -92,8 +92,19 @@ class ISIC:
 
             lgr.info('Extracting ISIC-2019 training input: done')
 
-        path = os.path.join(data_path, 'ISIC2019/ISIC_2019_Training_GroundTruth.csv')
+        # Downloading metadata input data
+        path = os.path.join(data_path, 'ISIC2019/ISIC_2019_Training_Metadata.csv')
+        print(f"Training Metadata Path: {os.path.abspath(path)}")
+        if not os.path.exists(path):
+            lgr.info('\nExtract ISIC-2019 training metadata ... (this may take a few minutes)')
 
+            url = 'https://isic-challenge-data.s3.amazonaws.com/2019/ISIC_2019_Training_Metadata.csv'
+            wget.download(url, path)
+
+            lgr.info('Extracting ISIC-2019 training metadata: done')
+
+        # Download training ground truth
+        path = os.path.join(data_path, 'ISIC2019/ISIC_2019_Training_GroundTruth.csv')
         if not os.path.exists(path):
             lgr.info('\nExtract ISIC-2019 training gt ... (this may take a few minutes)')
 
